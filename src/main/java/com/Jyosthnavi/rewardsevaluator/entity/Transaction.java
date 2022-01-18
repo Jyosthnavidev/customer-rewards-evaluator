@@ -19,7 +19,6 @@ public class Transaction extends Reward {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="customer_id") 
 	private Customer customer;
@@ -28,11 +27,9 @@ public class Transaction extends Reward {
 	private LocalDateTime saveDate;
 
 	public Transaction() {
-		super();
 	}
 
 	public Transaction(Long id, Customer customer, Double total, String description, LocalDateTime date) {
-		super();
 		this.id = id;
 		this.customer = customer;
 		this.total = total;

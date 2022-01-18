@@ -1,6 +1,9 @@
 package com.Jyosthnavi.rewardsevaluator.entity;
 
+import java.time.Month;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,18 +24,19 @@ public class Customer {
 	private String name;
 	@OneToMany(mappedBy="customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Transaction> transactions;
-	@JsonInclude
 	@Transient
 	private Long rewardPoints;
-	@JsonInclude
 	@Transient
 	private Double totalPurchases;
 	
+	@Transient
+	private Map<String, Long> monthlyRewards;
+	
+	
 	public Customer() {
-		super();
 	}
+	
 	public Customer(Integer customerId, String name) {
-		super();
 		this.customerId = customerId;
 		this.name = name;
 	}
@@ -65,6 +69,12 @@ public class Customer {
 		if (transactions == null || transactions.isEmpty()) return 0d;
 		
 		return transactions.stream().map(x -> x.getTotal().doubleValue()).reduce(0d, (a,b) -> a + b).doubleValue();
+	}
+	
+	public Map<Month, Long> getMonthlyRewards() {
+		Map<Month, Long> monthlyRewards = transactions.stream().collect(Collectors.groupingBy(t->t.getSaveDate().getMonth(),Collectors.summingLong(t->t.getPoints())));
+		return monthlyRewards;
+		
 	}
 	
 	

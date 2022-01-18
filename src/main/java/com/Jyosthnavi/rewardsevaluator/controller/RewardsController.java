@@ -21,11 +21,6 @@ public class RewardsController {
 	private RewardsService rewardsService;
 	
 	
-//	@GetMapping("/{idUser}/rewards")
-//	public List<MyTransaction> getAll(@PathVariable Integer idUser) {
-//		return rewardsService.getAll();
-//	}
-	
 	@GetMapping("/customers")
 	public List<Customer> findCustomerAll() {
 		return rewardsService.getCustomerAll();
